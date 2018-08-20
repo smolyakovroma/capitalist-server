@@ -1,6 +1,7 @@
 package capitalistserver.model.builds;
 
 import capitalistserver.model.cityManagment.Tender;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

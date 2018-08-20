@@ -8,6 +8,8 @@ import capitalistserver.model.cityManagment.Tender;
 import capitalistserver.model.cityManagment.TenderStatus;
 import capitalistserver.model.cityManagment.TenderType;
 import capitalistserver.model.territory.*;
+import capitalistserver.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +18,22 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("GAME BEGIN!");
-        generateTerritory();
 
 
     }
 
-    private static void startGame(Country country) {
+    @Autowired
+    private CountryRepository countryRepository;
+    @Autowired
+    private RegionRepository regionRepository;
+    @Autowired
+    private SectorRepository sectorRepository;
+    @Autowired
+    private CellRepository cellRepository;
+    @Autowired
+    private TenderRepository tenderRepository;
+
+    private  void startGame(Country country) {
         while (true) {
             try {
                 TimeUnit.SECONDS.sleep(5);
@@ -86,7 +97,10 @@ public class Main {
         }
     }
 
-    public static void generateTerritory() {
+    public void generateTerritory() {
+        System.out.println("GAME BEGIN!");
+
+
         //region 3x3 in center small city and 8 sector 10x10
         Random random = new Random();
         Country russia = new Country("RUSSIA");
@@ -142,13 +156,15 @@ public class Main {
         }
         testiland.getSectors().remove(4);
         testiland.getSectors().add(4, testville);
+
+        countryRepository.save(russia);
         aboutRegion(testiland);
         aboutSector(testiland.getSectors().get(0));
         aboutSector(testiland.getSectors().get(4));
         startGame(russia);
     }
 
-    public static void aboutRegion(Region region) {
+    public void aboutRegion(Region region) {
         System.out.println("----------------------------------------------");
         List<Sector> sectors = region.getSectors();
         int c = 0;
@@ -162,7 +178,7 @@ public class Main {
         }
     }
 
-    public static void aboutSector(Sector sector) {
+    public void aboutSector(Sector sector) {
         System.out.println("----------------------------------------------");
         List<Cell> cells = sector.getCells();
         int c = 0;
