@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "cell")
@@ -14,9 +13,14 @@ import javax.persistence.Table;
 @Getter
 @Setter
 public class Cell {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id",length = 19)
+    private long id;
     private long x;
     private long y;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "build_fk", nullable = false)
     private Build build;
     private CellType cellType;
 

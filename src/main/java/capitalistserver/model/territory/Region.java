@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +14,15 @@ import java.util.List;
 @Getter
 @Setter
 public class Region {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id",length = 19)
+    private long id;
     private String title;
     private long x;
     private long y;
     private int rows, cols;
-
+    @OneToMany(mappedBy = "sector", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     List<Sector> sectors = new ArrayList<Sector>();
 
     public Region(String title, long x, long y) {
